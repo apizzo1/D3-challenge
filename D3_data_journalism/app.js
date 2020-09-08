@@ -75,19 +75,34 @@ d3.csv("data/data.csv")
     .attr("fill", "blue")
     .attr("opacity", ".5");
 
-  // append y axis
-  chartGroup.append("text")
-  .attr("transform", "rotate(-90)")
-  .attr("y", 0 - (chartMargin.left))
-  .attr("x", 0 - (chartHeight / 2))
-  .attr("dy", "1em")
-  .classed("axis-text", true)
-  .text("Obesity %");
+    // add text to circles 
+    textLabels = chartGroup.selectAll("text")
+      .data(healthData)
+      .enter()
+      .append("text")
+      .attr("x", d => xscale(d.healthcare-0.2))
+      .attr("y", d => yscale(d.obesity-0.15))
+      .text( d => d.abbr)
+      .attr("font-family", "sans-serif")
+      .attr("font-size", "10px")
+      .attr("fill", "white");
 
-  chartGroup.append("text")
-      .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + chartMargin.top })`)
-      .attr("class", "axisText")
-      .text("Healthcare %");
+    
+      
+
+    // append y axis
+    chartGroup.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - (chartMargin.left))
+    .attr("x", 0 - (chartHeight / 2))
+    .attr("dy", "1em")
+    .classed("axis-text", true)
+    .text("Obesity %");
+
+    chartGroup.append("text")
+    .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + chartMargin.top })`)
+    .attr("class", "axisText")
+    .text("Healthcare %");
 
 
 })
