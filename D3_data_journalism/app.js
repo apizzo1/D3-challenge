@@ -7,10 +7,10 @@ var svgHeight = 660;
 
 // Define the chart's margins as an object
 var chartMargin = {
-  top: 30,
-  right: 30,
-  bottom: 30,
-  left: 30
+  top: 40,
+  right: 40,
+  bottom: 40,
+  left: 40
 };
 
 // Define dimensions of the chart area
@@ -75,6 +75,19 @@ d3.csv("data/data.csv")
     .attr("fill", "blue")
     .attr("opacity", ".5");
 
+  // append y axis
+  chartGroup.append("text")
+  .attr("transform", "rotate(-90)")
+  .attr("y", 0 - (chartMargin.left))
+  .attr("x", 0 - (chartHeight / 2))
+  .attr("dy", "1em")
+  .classed("axis-text", true)
+  .text("Obesity %");
+
+  chartGroup.append("text")
+      .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + chartMargin.top })`)
+      .attr("class", "axisText")
+      .text("Healthcare %");
 
 
 })
