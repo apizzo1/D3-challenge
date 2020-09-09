@@ -65,31 +65,43 @@ d3.csv("data/data.csv")
     
     //   // Create one SVG circle per piece of healthdata
     
-    // append initial circles
+    // append initial circles 
+    // source: https://stackoverflow.com/questions/49882951/labels-for-circles-not-showing-up-in-d3-data-visualization
     var circlesGroup = chartGroup.selectAll("circle")
       .data(healthData)
       .enter()
-      .append("circle")
+      .append('g')
+
+      
+      circlesGroup.append("circle")
       .attr("cx", d => xscale(d.healthcare))
       .attr("cy", d => yscale(d.obesity))
       .attr("r", 10)
-      .attr("fill", "blue")
-      .attr("opacity", ".4");
+      .attr("fill", "lightblue")
+      .attr("opacity", "1");
 
     // add text to circles 
     // source: https://stackoverflow.com/questions/49882951/labels-for-circles-not-showing-up-in-d3-data-visualization
-    textLabels = chartGroup.append('g')
-      .selectAll("text")
-      .data(healthData)
-      .enter()
-      .append("text")
-      .attr("x", d => xscale(d.healthcare-0.2))
-      .attr("y", d => yscale(d.obesity-0.13))
+    // textLabels = chartGroup.append('g')
+    //   .selectAll("text")
+    //   .data(healthData)
+    //   .enter()
+    //   .append("text")
+    //   .attr("x", d => xscale(d.healthcare-0.2))
+    //   .attr("y", d => yscale(d.obesity-0.13))
+    //   .text( d => d.abbr)
+    //   .attr("font-family", "sans-serif")
+    //   .attr("font-size", "10px")
+    //   .attr("fill", "white");
+
+    circlesGroup.append("text")
+      // .classed("center", true)
       .text( d => d.abbr)
+      .attr("transform", d => `translate(${xscale(d.healthcare) - 6}, ${yscale(d.obesity)+4})`)
+      // .attr("y", d => yscale(d.obesity))
       .attr("font-family", "sans-serif")
       .attr("font-size", "10px")
       .attr("fill", "white");
-
     
     // append y axis label
     chartGroup.append("text")
