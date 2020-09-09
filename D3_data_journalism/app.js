@@ -9,8 +9,8 @@ var svgHeight = 660;
 var chartMargin = {
   top: 40,
   right: 40,
-  bottom: 40,
-  left: 40
+  bottom: 120,
+  left: 120
 };
 
 // Define dimensions of the chart area
@@ -82,18 +82,7 @@ d3.csv("data/data.csv")
 
     // add text to circles 
     // source: https://stackoverflow.com/questions/49882951/labels-for-circles-not-showing-up-in-d3-data-visualization
-    // textLabels = chartGroup.append('g')
-    //   .selectAll("text")
-    //   .data(healthData)
-    //   .enter()
-    //   .append("text")
-    //   .attr("x", d => xscale(d.healthcare-0.2))
-    //   .attr("y", d => yscale(d.obesity-0.13))
-    //   .text( d => d.abbr)
-    //   .attr("font-family", "sans-serif")
-    //   .attr("font-size", "10px")
-    //   .attr("fill", "white");
-
+   
     circlesGroup.append("text")
       // .classed("center", true)
       .text( d => d.abbr)
@@ -103,7 +92,7 @@ d3.csv("data/data.csv")
       .attr("font-size", "10px")
       .attr("fill", "white");
     
-    // append y axis label
+    // append y axis labels
     chartGroup.append("text")
     .attr("transform", "rotate(-90)")
     .attr("y", 0 - (chartMargin.left))
@@ -112,11 +101,15 @@ d3.csv("data/data.csv")
     .classed("axis-text", true)
     .text("Obesity (%)");
 
-    // append x axis label
-    chartGroup.append("text")
-    .attr("transform", `translate(${chartWidth / 2}, ${chartHeight + chartMargin.top })`)
-    .attr("class", "axisText")
-    .text("Healthcare (%)");
+    // // append x axis labels
+    // // source: http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
+    var x_axis_labels = ["Healthcare (%)", "Household Income", "Age"];
 
+    for (var i = 0; i<x_axis_labels.length; i++) {
+      chartGroup.append("text")
+      .attr("transform", `translate(${chartWidth/2}, ${chartHeight + (chartMargin.top+30*i) })`)
+      .style("text-anchor", "middle")
+      .text(x_axis_labels[i]);
+    }
 
 })
