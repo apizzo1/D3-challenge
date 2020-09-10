@@ -95,16 +95,35 @@ d3.csv("data/data.csv")
     // // append y axis labels
     // // source: http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
     var y_axis_labels = ["Obesity (%)", "Smokes (%)", "In Poverty (%)"];
+    var y_axis_classes = ["obesity", "smokes", "poverty"];
 
     for (var i = 0; i<y_axis_labels.length; i++) {
+      if (i>0) {
+
       chartGroup.append("text")
+      .text(y_axis_labels[i])
       .attr("transform", "rotate(-90)")
       .attr("y", 30*[i] - (chartMargin.left))
       .attr("x", 0 - (chartHeight / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .text(y_axis_labels[i]);
-    }
+      .attr("value", y_axis_classes[i])
+      .classed("inactive", true);
+      }
+      // start with one x axis label active
+      else {
+      chartGroup.append("text")
+      .text(y_axis_labels[i])
+      .attr("transform", "rotate(-90)")
+      .attr("y", 30*[i] - (chartMargin.left))
+      .attr("x", 0 - (chartHeight / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .attr("value", y_axis_classes[i])
+      .classed("active", true);
+
+      }
+   }
 
     // // append x axis labels
     // // source: http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
