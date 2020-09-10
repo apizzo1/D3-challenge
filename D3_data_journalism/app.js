@@ -27,6 +27,9 @@ var svg = d3.select("#scatter")
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${chartMargin.left}, ${chartMargin.top})`);
 
+// starting x axis selection
+var xaxis_choice = "healthcare";
+
 
 // pull in data from csv
 
@@ -92,6 +95,14 @@ d3.csv("data/data.csv")
       .attr("font-size", "10px")
       .attr("fill", "white");
 
+      // Create group for two x-axis labels
+    var xlabelsGroup = chartGroup.append("g")
+      .attr("transform", `translate(${chartWidth / 2}, ${chartHeight})`);
+
+    var ylabelsGroup = chartGroup.append("g")
+      .attr("transform", `translate(0, ${chartHeight/2})`);
+
+
     // // append y axis labels
     // // source: http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
     var y_axis_labels = ["Obesity (%)", "Smokes (%)", "In Poverty (%)"];
@@ -100,25 +111,25 @@ d3.csv("data/data.csv")
     for (var i = 0; i<y_axis_labels.length; i++) {
       if (i>0) {
 
-      chartGroup.append("text")
+        ylabelsGroup.append("text")
       .text(y_axis_labels[i])
       .attr("transform", "rotate(-90)")
       .attr("y", 30*[i] - (chartMargin.left))
-      .attr("x", 0 - (chartHeight / 2))
+      .attr("x", 0)
       .attr("dy", "1em")
-      .style("text-anchor", "middle")
+      // .style("text-anchor", "middle")
       .attr("value", y_axis_classes[i])
       .classed("inactive", true);
       }
       // start with one x axis label active
       else {
-      chartGroup.append("text")
+        ylabelsGroup.append("text")
       .text(y_axis_labels[i])
       .attr("transform", "rotate(-90)")
       .attr("y", 30*[i] - (chartMargin.left))
-      .attr("x", 0 - (chartHeight / 2))
+      .attr("x",0)
       .attr("dy", "1em")
-      .style("text-anchor", "middle")
+      // .style("text-anchor", "middle")
       .attr("value", y_axis_classes[i])
       .classed("active", true);
 
@@ -133,31 +144,55 @@ d3.csv("data/data.csv")
     for (var i = 0; i<x_axis_labels.length; i++) {
       
       if (i>0) {
-      chartGroup.append("text")
-      .attr("transform", `translate(${chartWidth/2}, ${chartHeight + (chartMargin.top+30*i) })`)
-      .style("text-anchor", "middle")
-      .text(x_axis_labels[i])
-      .attr("value", x_axis_classes[i])
-      .classed("inactive", true);
+        xlabelsGroup.append("text")
+          .attr("transform", `translate(0, ${ (chartMargin.top+30*i) })`)
+          // .style("text-anchor", "middle")
+          .text(x_axis_labels[i])
+          .attr("value", x_axis_classes[i])
+          .classed("inactive", true);
       }
       // start with one x axis label active
       else {
-        chartGroup.append("text")
-      .attr("transform", `translate(${chartWidth/2}, ${chartHeight + (chartMargin.top+30*i) })`)
-      .style("text-anchor", "middle")
-      .text(x_axis_labels[i])
-      .attr("value", x_axis_classes[i])
-      .classed("active", true);
-
+        xlabelsGroup.append("text")
+          .attr("transform", `translate(0, ${(chartMargin.top+30*i) })`)
+          // .style("text-anchor", "middle")
+          .text(x_axis_labels[i])
+          .attr("value", x_axis_classes[i])
+          .classed("active", true);
       }
-
       
     }
 
-    // d3.select("#age").on("click", updateData);
+     // x axis labels event listener
+     xlabelsGroup.selectAll("text")
+      .on("click", function() {
+        console.log("clicked");
 
-    // function updateData() {
-    //   console.log("clicked")
-    // }
+        var selection = d3.select(this).attr("value");
+        console.log(selection);
+        
+        if (selection != xaxis_choice) {
+
+          // update xscale based on selection
+          xscale = d3.scaleLinear()
+            .domain([d3.min(healthData, d => d.selection), d3.max(healthData, d => d.selection)])
+            .range([0, chartWidth]);
+
+          // source: https://stackoverflow.com/questions/20414980/d3-select-by-attribute-value/20415013
+          var old_axis = d3.select(`[value = ${xaxis_choice}]`);
+          old_axis.attr("class", "inactive");
+
+          var chosen_axis = d3.select(this);
+          chosen_axis.attr("class", "active");
+
+          // reset xaxis choice to new selection
+          xaxis_choice = selection;
+          
+        }
+
+
+      })
+
+
 
 })
