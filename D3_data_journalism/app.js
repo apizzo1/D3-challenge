@@ -109,12 +109,36 @@ d3.csv("data/data.csv")
     // // append x axis labels
     // // source: http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
     var x_axis_labels = ["Healthcare (%)", "Household Income (Median)", "Age (Median)"];
+    var x_axis_classes = ["healthcare", "income", "age"];
 
     for (var i = 0; i<x_axis_labels.length; i++) {
+      
+      if (i>0) {
       chartGroup.append("text")
       .attr("transform", `translate(${chartWidth/2}, ${chartHeight + (chartMargin.top+30*i) })`)
       .style("text-anchor", "middle")
-      .text(x_axis_labels[i]);
+      .text(x_axis_labels[i])
+      .attr("value", x_axis_classes[i])
+      .classed("inactive", true);
+      }
+      // start with one x axis label active
+      else {
+        chartGroup.append("text")
+      .attr("transform", `translate(${chartWidth/2}, ${chartHeight + (chartMargin.top+30*i) })`)
+      .style("text-anchor", "middle")
+      .text(x_axis_labels[i])
+      .attr("value", x_axis_classes[i])
+      .classed("active", true);
+
+      }
+
+      
     }
+
+    // d3.select("#age").on("click", updateData);
+
+    // function updateData() {
+    //   console.log("clicked")
+    // }
 
 })
