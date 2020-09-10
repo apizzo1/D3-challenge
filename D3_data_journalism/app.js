@@ -91,19 +91,24 @@ d3.csv("data/data.csv")
       .attr("font-family", "sans-serif")
       .attr("font-size", "10px")
       .attr("fill", "white");
-    
-    // append y axis labels
-    chartGroup.append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("y", 0 - (chartMargin.left))
-    .attr("x", 0 - (chartHeight / 2))
-    .attr("dy", "1em")
-    .classed("axis-text", true)
-    .text("Obesity (%)");
+
+    // // append y axis labels
+    // // source: http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
+    var y_axis_labels = ["Obesity (%)", "Smokes (%)", "In Poverty (%)"];
+
+    for (var i = 0; i<y_axis_labels.length; i++) {
+      chartGroup.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 30*[i] - (chartMargin.left))
+      .attr("x", 0 - (chartHeight / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text(y_axis_labels[i]);
+    }
 
     // // append x axis labels
     // // source: http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
-    var x_axis_labels = ["Healthcare (%)", "Household Income", "Age"];
+    var x_axis_labels = ["Healthcare (%)", "Household Income (Median)", "Age (Median)"];
 
     for (var i = 0; i<x_axis_labels.length; i++) {
       chartGroup.append("text")
