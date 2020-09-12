@@ -248,19 +248,19 @@ d3.csv("data/data.csv")
           var income_section = d3.select("#income_section");
           var age_section = d3.select("#age_section");
           if (x_selection === "healthcare") {
-            health_section.attr("class", "padding highlight");
-            income_section.attr("class", "padding");
-            age_section.attr("class", "padding");
+            health_section.attr("class", "padding text-white bg-primary mb-3");
+            income_section.attr("class", "padding bg-secondary mb-3");
+            age_section.attr("class", "padding bg-secondary mb-3");
           }
           else if (x_selection === "income") {
-            income_section.attr("class", "padding highlight");
-            health_section.attr("class", "padding");
-            age_section.attr("class", "padding");
+            income_section.attr("class", "padding text-white bg-primary mb-3");
+            health_section.attr("class", "padding bg-secondary mb-3");
+            age_section.attr("class", "padding bg-secondary mb-3");
           }
           else {
-            age_section.attr("class", "padding highlight");
-            income_section.attr("class", "padding");
-            health_section.attr("class", "padding");
+            age_section.attr("class", "padding text-white bg-primary mb-3");
+            income_section.attr("class", "padding bg-secondary mb-3");
+            health_section.attr("class", "padding bg-secondary mb-3");
           }
         }
 
