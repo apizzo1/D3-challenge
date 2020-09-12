@@ -27,8 +27,9 @@ var svg = d3.select("#scatter")
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${chartMargin.left}, ${chartMargin.top})`);
 
-// starting x axis selection
+// starting x axis selection and y axis selections
 var xaxis_choice = "healthcare";
+var yaxis_choice = "obesity";
 
 
 // pull in data from csv
@@ -40,29 +41,34 @@ d3.csv("data/data.csv")
     // Cast the healthcare value to a number for all data
     healthData.forEach(function(d) {
         d.healthcare = +d.healthcare;
+        d.income = +d.income;
+        d.age = +d.age;
         d.obesity = +d.obesity;
         d.poverty = +d.poverty;
+        d.smokes = +d.smokes;
+      
     });
 
     // Create a linear scale for the horizontal axis 
     var xscale = d3.scaleLinear()
-        .domain([3, d3.max(healthData, d => d.healthcare)])
+        .domain([0.9*(d3.min(healthData, d => d[xaxis_choice])), 1.1*(d3.max(healthData, d => d[xaxis_choice]))])
         .range([0, chartWidth]);
-
+    
     // Create a linear scale for the vertical axis.
     var yscale = d3.scaleLinear()
-        .domain([20, d3.max(healthData, d => d.obesity)])
+        .domain([0.9*(d3.min(healthData, d => d[yaxis_choice])),1.1*(d3.max(healthData, d => d[yaxis_choice]))])
         .range([chartHeight, 0]);
+       
 
     var bottomAxis = d3.axisBottom(xscale);
     var leftAxis = d3.axisLeft(yscale);
     
     //   // Append two SVG group elements to the chartGroup area,
     //   // and create the bottom and left axes inside of them
-    chartGroup.append("g")
+    var y_axis = chartGroup.append("g")
         .call(leftAxis);
   
-    chartGroup.append("g")
+    var x_axis = chartGroup.append("g")
         .attr("transform", `translate(0, ${chartHeight})`)
         .call(bottomAxis);
     
@@ -76,21 +82,19 @@ d3.csv("data/data.csv")
       .append('g')
 
       
-      circlesGroup.append("circle")
-      .attr("cx", d => xscale(d.healthcare))
-      .attr("cy", d => yscale(d.obesity))
-      .attr("r", 10)
+     var circles_append = circlesGroup.append("circle")
+      .attr("cx", d => xscale(d[xaxis_choice]))
+      .attr("cy", d => yscale(d[yaxis_choice]))
+      .attr("r", 15)
       .attr("fill", "lightblue")
       .attr("opacity", "1");
 
     // add text to circles 
     // source: https://stackoverflow.com/questions/49882951/labels-for-circles-not-showing-up-in-d3-data-visualization
    
-    circlesGroup.append("text")
-      // .classed("center", true)
+    var circle_text = circlesGroup.append("text")
       .text( d => d.abbr)
-      .attr("transform", d => `translate(${xscale(d.healthcare) - 6}, ${yscale(d.obesity)+4})`)
-      // .attr("y", d => yscale(d.obesity))
+      .attr("transform", d => `translate(${xscale(d[xaxis_choice])}, ${yscale(d[yaxis_choice])})`)
       .attr("font-family", "sans-serif")
       .attr("font-size", "10px")
       .attr("fill", "white");
@@ -168,31 +172,84 @@ d3.csv("data/data.csv")
       .on("click", function() {
         console.log("clicked");
 
-        var selection = d3.select(this).attr("value");
-        console.log(selection);
+        var x_selection = d3.select(this).attr("value");
+        console.log(x_selection);
+        console.log(xaxis_choice);
         
-        if (selection != xaxis_choice) {
-
-          // update xscale based on selection
+        if (x_selection !== xaxis_choice) {
+          // update x axis based on selection
           xscale = d3.scaleLinear()
-            .domain([d3.min(healthData, d => d.selection), d3.max(healthData, d => d.selection)])
+            .domain([0.9*(d3.min(healthData, d => d[x_selection])), 1.1*(d3.max(healthData, d => d[x_selection]))])
             .range([0, chartWidth]);
 
-          // source: https://stackoverflow.com/questions/20414980/d3-select-by-attribute-value/20415013
-          var old_axis = d3.select(`[value = ${xaxis_choice}]`);
-          old_axis.attr("class", "inactive");
+          bottomAxis = d3.axisBottom(xscale);
+          x_axis.transition()
+          .duration(300)
+          .call(bottomAxis);
 
-          var chosen_axis = d3.select(this);
-          chosen_axis.attr("class", "active");
+          // make chosen axis 'active' and old axis 'inactive'
+          // source: https://stackoverflow.com/questions/20414980/d3-select-by-attribute-value/20415013
+          var old_x_axis = d3.select(`[value = ${xaxis_choice}]`);
+          old_x_axis.attr("class", "inactive");
+
+          var chosen_x_axis = d3.select(this);
+          chosen_x_axis.attr("class", "active");
 
           // reset xaxis choice to new selection
-          xaxis_choice = selection;
-          
+          xaxis_choice = x_selection;
+
+          // update circles and text
+          circles_append.transition()
+          .duration(500)
+          .attr("cx", d => xscale(d[xaxis_choice]));
+
+          circle_text.transition()
+          .duration(500)
+          .attr("transform", d => `translate(${xscale(d[xaxis_choice]) - 6}, ${yscale(d[yaxis_choice])})`)
         }
-
-
       })
 
+    // y axis labels event listener
+    ylabelsGroup.selectAll("text")
+      .on("click", function() {
+        console.log("clicked");
+
+        var y_selection = d3.select(this).attr("value");
+        console.log(y_selection);
+        console.log(yaxis_choice);
+        
+        if (y_selection !== yaxis_choice) {
+          // update y axis based on selection
+          yscale = d3.scaleLinear()
+          .domain([0.9*(d3.min(healthData, d => d[y_selection])), 1.1*(d3.max(healthData, d => d[y_selection]))])
+          .range([chartHeight, 0]);
+
+          leftAxis = d3.axisLeft(yscale);
+          y_axis.transition()
+          .duration(1000)
+          .call(leftAxis);
+
+          // make chosen axis 'active' and old axis 'inactive'
+          // source: https://stackoverflow.com/questions/20414980/d3-select-by-attribute-value/20415013
+          var old_y_axis = d3.select(`[value = ${yaxis_choice}]`);
+          old_y_axis.attr("class", "inactive");
+
+          var chosen_y_axis = d3.select(this);
+          chosen_y_axis.attr("class", "active");
+
+          // reset xaxis choice to new selection
+          yaxis_choice = y_selection;
+
+          // update circles and text
+          circles_append.transition()
+          .duration(1000)
+          .attr("cy", d => yscale(d[yaxis_choice]));
+
+          circle_text.transition()
+          .duration(1000)
+          .attr("transform", d => `translate(${xscale(d[xaxis_choice]) - 6}, ${yscale(d[yaxis_choice])})`)
+        }
+      })
 
 
 })
