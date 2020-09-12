@@ -1,6 +1,5 @@
 //  create a scatter plot between two of the data variables
 
-
 // Define SVG area dimensions
 var svgWidth = 800;
 var svgHeight = 660;
@@ -31,6 +30,8 @@ var chartGroup = svg.append("g")
 var xaxis_choice = "healthcare";
 var yaxis_choice = "obesity";
 
+// function to add data pop-up when user hovers over data points
+// using tool tips
 function show_toolTip(circlesGroup, xaxis_choice, yaxis_choice) {
   var toolTip = d3.tip()
     .attr("class", "d3-tip")
@@ -49,10 +50,12 @@ function show_toolTip(circlesGroup, xaxis_choice, yaxis_choice) {
 
   circlesGroup.call(toolTip);
 
+  // when hovering on a data point, show data
   circlesGroup.on("mouseover", function(d) {
     toolTip.show(d);
   })
 
+  // when user stops hovering on a data point, data will be hidden
   circlesGroup.on("mouseout", function(d) {
     toolTip.hide(d);
   })
@@ -65,7 +68,7 @@ d3.csv("data/data.csv")
 .then((healthData) => {
     console.log(healthData);
 
-    // Cast the healthcare value to a number for all data
+    // Cast the healthcare value to a number for all number data
     healthData.forEach(function(d) {
         d.healthcare = +d.healthcare;
         d.income = +d.income;
@@ -78,20 +81,22 @@ d3.csv("data/data.csv")
 
     // Create a linear scale for the horizontal axis 
     var xscale = d3.scaleLinear()
+    // multiplying by 0.9 and 1.1 to make sure data points are not on the x or y axes
         .domain([0.9*(d3.min(healthData, d => d[xaxis_choice])), 1.1*(d3.max(healthData, d => d[xaxis_choice]))])
         .range([0, chartWidth]);
     
     // Create a linear scale for the vertical axis.
     var yscale = d3.scaleLinear()
+    // multiplying by 0.9 and 1.1 to make sure data points are not on the x or y axes
         .domain([0.9*(d3.min(healthData, d => d[yaxis_choice])),1.1*(d3.max(healthData, d => d[yaxis_choice]))])
         .range([chartHeight, 0]);
        
-
+    // create axes
     var bottomAxis = d3.axisBottom(xscale);
     var leftAxis = d3.axisLeft(yscale);
     
     //   // Append two SVG group elements to the chartGroup area,
-    //   // and create the bottom and left axes inside of them
+    //   // and call the bottom and left axes inside of them
     var y_axis = chartGroup.append("g")
         .call(leftAxis);
   
@@ -100,7 +105,6 @@ d3.csv("data/data.csv")
         .call(bottomAxis);
     
     //   // Create one SVG circle per piece of healthdata
-    
     // append initial circles 
     // source: https://stackoverflow.com/questions/49882951/labels-for-circles-not-showing-up-in-d3-data-visualization
     var circlesGroup = chartGroup.selectAll("circle")
@@ -108,7 +112,7 @@ d3.csv("data/data.csv")
       .enter()
       .append('g')
 
-      
+    // append circles and use data to dictate where the circle centerpoint will be
      var circles_append = circlesGroup.append("circle")
       .attr("cx", d => xscale(d[xaxis_choice]))
       .attr("cy", d => yscale(d[yaxis_choice]))
@@ -126,10 +130,11 @@ d3.csv("data/data.csv")
       .attr("class", "stateText")
       .attr("font-size", "10px");
 
-      // Create group for two x-axis labels
+      // Create group for x-axis labels (needed for event listener)
     var xlabelsGroup = chartGroup.append("g")
       .attr("transform", `translate(${chartWidth / 2}, ${chartHeight})`);
 
+       // Create group for y-axis labels (needed for event listener)
     var ylabelsGroup = chartGroup.append("g")
       .attr("transform", `translate(0, ${chartHeight/2})`);
 
@@ -139,6 +144,8 @@ d3.csv("data/data.csv")
     var y_axis_labels = ["Obesity (%)", "Smokes (%)", "In Poverty (%)"];
     var y_axis_classes = ["obesity", "smokes", "poverty"];
 
+    // loop through axis labels and append them to the axis
+    // add classes as well
     for (var i = 0; i<y_axis_labels.length; i++) {
       if (i>0) {
 
@@ -148,7 +155,6 @@ d3.csv("data/data.csv")
       .attr("y", 30*[i] - (chartMargin.left))
       .attr("x", 0)
       .attr("dy", "1em")
-      // .style("text-anchor", "middle")
       .attr("value", y_axis_classes[i])
       .classed("inactive", true);
       }
@@ -160,7 +166,6 @@ d3.csv("data/data.csv")
       .attr("y", 30*[i] - (chartMargin.left))
       .attr("x",0)
       .attr("dy", "1em")
-      // .style("text-anchor", "middle")
       .attr("value", y_axis_classes[i])
       .classed("active", true);
 
@@ -169,15 +174,16 @@ d3.csv("data/data.csv")
 
     // // append x axis labels
     // // source: http://www.d3noob.org/2012/12/adding-axis-labels-to-d3js-graph.html
-    var x_axis_labels = ["Healthcare (%)", "Household Income (Median)", "Age (Median)"];
+    var x_axis_labels = ["Lacks Healthcare (%)", "Household Income (Median)", "Age (Median)"];
     var x_axis_classes = ["healthcare", "income", "age"];
 
+  // loop through axis labels and append them to the axis
+  // add classes as well
     for (var i = 0; i<x_axis_labels.length; i++) {
       
       if (i>0) {
         xlabelsGroup.append("text")
           .attr("transform", `translate(0, ${ (chartMargin.top+30*i) })`)
-          // .style("text-anchor", "middle")
           .text(x_axis_labels[i])
           .attr("value", x_axis_classes[i])
           .classed("inactive", true);
@@ -186,7 +192,6 @@ d3.csv("data/data.csv")
       else {
         xlabelsGroup.append("text")
           .attr("transform", `translate(0, ${(chartMargin.top+30*i) })`)
-          // .style("text-anchor", "middle")
           .text(x_axis_labels[i])
           .attr("value", x_axis_classes[i])
           .classed("active", true);
@@ -194,6 +199,7 @@ d3.csv("data/data.csv")
       
     }
 
+    // call tool tip function to add data pop-ups when user hovers over data points
     var circles_tip = show_toolTip(circlesGroup, xaxis_choice, yaxis_choice);
 
      // x axis labels event listener

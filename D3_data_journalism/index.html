@@ -4,56 +4,117 @@
 <head>
   <meta charset="UTF-8">
   <title>D3Times</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <!-- bootstrap css reference -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
   <link rel="stylesheet" href="css/style.css">
+  <!-- css stylesheet - provided from  boot camp assignment template -->
   <link rel="stylesheet" href="css/d3Style.css">
 
 </head>
 
 <body>
   <div class="container">
-    <div class="row">
-      <div class="col-xs-12 col-md-12">
-        <h1>D3Times</h1>
-      </div>
+    <div class="jumbotron">
+      <h1 class="center">D3Times</h1>
+      <h2 class="center">Health Risks Comparisons Across the US</h2>
     </div>
+
     <div class="row">
-      <div class="col-xs-12  col-md-9">
+
+      <div class="col-md-12">
         <div id="scatter">
           <!-- We append our chart here. -->
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-xs-12  col-md-9">
+    <div class="row bottom">
+      <div class="col-md-12">
         <div class="article">
-          <h2>Correlations Discovered Between Health Risks and Age, Income</h2>
-          <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
-            quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-            ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+          <h2>Correlations Discovered Between Health Risks and Particular Demographics</h2>
+          <br>
+          <div class = "padding" style = "background: lightcyan;">
+            <h5>Healthcare Availability</h5>
+            <p >As may be expected, states with lower percentages of residents lacking healthcare tend to see lower
+              percentages of <strong>obesity</strong>. For example,
+              Massachusetts has the lowest percentage of residents lacking healthcare, and also has one of the lowest
+              percentages of obesity across the United States.
+              On the other hand, Texas has the highest percentage of residents lacking healthcare and also has one of
+              the
+              highest percentages of obesity in the country. </p>
 
-          <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
-            quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-            ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+            <p>It can be seen that having access to healthcare does not seem to affect the percentage of residents that
+              <strong>smoke</strong>. Massachusetts and Texas appear of opposite
+              ends of the spectrum when it comes to residents having heathcare. However, the percentage of residents
+              that
+              smoke is almost the same. It seems most of the country
+              shows residents that smoke to be approximately 18%. Some of the higher smoker percentages come from states
+              with higher percentages of residents lacking healthcare (Between
+              14-20%). However, the 2 highest smoker percentages come from 2 states with relatively good access to
+              healthcare (West Virginia and Kentucky).
+            </p>
 
-          <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor
-            quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-            ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+            <p>There appears to be a fairly strong correlation across the country that states with higher
+              <strong>poverty</strong> rates
+              also tend to have greater percentages
+              of residents lacking healthcare. This is an unfortunate reality, as those that live in poverty may not be
+              able to afford healthcare.
+            </p>
+          </div>
+          <div class = "padding">
+            <h5>Household Income Correlations</h5>
+            <p>There seems to be a downward trend across states when it comes to <strong>obesity</strong> percentage and
+              median household income. This indicates that,
+              as household income increases, the percentage of obesity decreases.</p>
+
+            <p>Interestingly, there also appears to be a downward trend when looking at <strong>smoking</strong>
+              percentage and median household income. As median household
+              income increases, the smoking percentage decreases. However, this trend appears to flatten around an
+              income
+              of $55,000, showing smoking percentage
+              of approximately 15%. This plateau stays consistent through the higher incomes available in this study.
+            </p>
+            <p>Finally, as expected, the percetange of residents in <strong>poverty</strong> appears to be inversely
+              proportional with median household income. Washington DC
+              is an interesting outlier, in that it has a median household income on the higher end of the spectrum, but
+              also a high percentage of residents in poverty. </p>
+          </div>
+          <div class = "padding">
+            <h5>Age Correlations</h5>
+            <p>When looking at age across the US, there does not seem to be an obvious correlation to
+              <strong>obesity</strong> percentage. </p>
+            <p>When comparing states with lower median age to states with higher median age, it can be seen there is
+              also not a significant trend when looking at <strong>smoking</strong> either. However
+              Utah (with a low median age and low smoking percentage) and West Virginia (with a high median age and high
+              smoking percentage) do appear to skew this particular
+              graph to appear as though states with lower median age also have lower smoking percentages.
+            </p>
+            <p>Finally, there does not seem to be a particular correlation of age and <strong>poverty</strong>.</p>
+            <p>It is interesting to see that Utah's median age is much lower than every other state, making it appear as
+              an outlier in these comparisons.</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Footer-->
-  <!-- <div id="footer">
-    <p>The Coding Boot Camp&copy;2016</p>
-  </div> -->
-  
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+  <!-- updated bootstrap scripts -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+
   <script src="https://d3js.org/d3.v5.min.js"></script>
+  <!-- needed for access to d3 tool tips -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+  <!-- link to app.js -->
   <script type="text/javascript" src="app.js"></script>
 
 </body>
