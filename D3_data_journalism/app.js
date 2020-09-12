@@ -85,9 +85,9 @@ d3.csv("data/data.csv")
      var circles_append = circlesGroup.append("circle")
       .attr("cx", d => xscale(d[xaxis_choice]))
       .attr("cy", d => yscale(d[yaxis_choice]))
-      .attr("r", 15)
-      .attr("fill", "lightblue")
-      .attr("opacity", "1");
+      .attr("r", 10)
+      .attr("class", "stateCircle");
+   
 
     // add text to circles 
     // source: https://stackoverflow.com/questions/49882951/labels-for-circles-not-showing-up-in-d3-data-visualization
@@ -95,9 +95,9 @@ d3.csv("data/data.csv")
     var circle_text = circlesGroup.append("text")
       .text( d => d.abbr)
       .attr("transform", d => `translate(${xscale(d[xaxis_choice])}, ${yscale(d[yaxis_choice])})`)
-      .attr("font-family", "sans-serif")
-      .attr("font-size", "10px")
-      .attr("fill", "white");
+      .attr("dy", 4)
+      .attr("class", "stateText")
+      .attr("font-size", "10px");
 
       // Create group for two x-axis labels
     var xlabelsGroup = chartGroup.append("g")
@@ -205,7 +205,7 @@ d3.csv("data/data.csv")
 
           circle_text.transition()
           .duration(500)
-          .attr("transform", d => `translate(${xscale(d[xaxis_choice]) - 6}, ${yscale(d[yaxis_choice])})`)
+          .attr("transform", d => `translate(${xscale(d[xaxis_choice])}, ${yscale(d[yaxis_choice])})`)
         }
       })
 
@@ -247,7 +247,7 @@ d3.csv("data/data.csv")
 
           circle_text.transition()
           .duration(1000)
-          .attr("transform", d => `translate(${xscale(d[xaxis_choice]) - 6}, ${yscale(d[yaxis_choice])})`)
+          .attr("transform", d => `translate(${xscale(d[xaxis_choice])}, ${yscale(d[yaxis_choice])})`)
         }
       })
 
