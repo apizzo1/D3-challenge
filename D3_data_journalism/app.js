@@ -241,6 +241,27 @@ d3.csv("data/data.csv")
 
           // update tooltip according to selection
           circles_tip = show_toolTip(circlesGroup, xaxis_choice, yaxis_choice);
+        
+          // change background color of description section on html depending on user selection
+
+          var health_section = d3.select("#health_section");
+          var income_section = d3.select("#income_section");
+          var age_section = d3.select("#age_section");
+          if (x_selection === "healthcare") {
+            health_section.attr("class", "padding highlight");
+            income_section.attr("class", "padding");
+            age_section.attr("class", "padding");
+          }
+          else if (x_selection === "income") {
+            income_section.attr("class", "padding highlight");
+            health_section.attr("class", "padding");
+            age_section.attr("class", "padding");
+          }
+          else {
+            age_section.attr("class", "padding highlight");
+            income_section.attr("class", "padding");
+            health_section.attr("class", "padding");
+          }
         }
 
       })

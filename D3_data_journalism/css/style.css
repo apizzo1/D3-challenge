@@ -30,3 +30,12 @@ body {
 .padding {
   padding: 15px;
 }
+
+.highlight {
+  background-color: lightgray;
+  
+}
+
+.jumbotron {
+  background-color: lightsteelblue;
+}
