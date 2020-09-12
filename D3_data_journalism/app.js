@@ -35,7 +35,16 @@ function show_toolTip(circlesGroup, xaxis_choice, yaxis_choice) {
   var toolTip = d3.tip()
     .attr("class", "d3-tip")
     .html(function(d) {
-      return (`${d.state}<br>${xaxis_choice}: ${d[xaxis_choice]}<br>${yaxis_choice}: ${d[yaxis_choice]}`);
+      // formatting what will be shown in text box 
+      if (xaxis_choice === "income") {
+        return (`${d.state}<br>${xaxis_choice}: $${d[xaxis_choice]}<br>${yaxis_choice}: ${d[yaxis_choice]}%`);
+      }
+      else if (xaxis_choice === "age") {
+        return (`${d.state}<br>${xaxis_choice}: ${d[xaxis_choice]}<br>${yaxis_choice}: ${d[yaxis_choice]}%`);
+      }
+      else {
+        return (`${d.state}<br>${xaxis_choice}: ${d[xaxis_choice]}%<br>${yaxis_choice}: ${d[yaxis_choice]}%`);
+      }
   })
 
   circlesGroup.call(toolTip);
@@ -224,6 +233,7 @@ d3.csv("data/data.csv")
           .duration(500)
           .attr("transform", d => `translate(${xscale(d[xaxis_choice])}, ${yscale(d[yaxis_choice])})`)
 
+          // update tooltip according to selection
           circles_tip = show_toolTip(circlesGroup, xaxis_choice, yaxis_choice);
         }
 
@@ -266,6 +276,7 @@ d3.csv("data/data.csv")
           .duration(1000)
           .attr("transform", d => `translate(${xscale(d[xaxis_choice])}, ${yscale(d[yaxis_choice])})`)
 
+          // update tooltip according to selection
           circles_tip = show_toolTip(circlesGroup, xaxis_choice, yaxis_choice);
         }
       })
