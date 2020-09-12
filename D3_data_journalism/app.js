@@ -31,6 +31,24 @@ var chartGroup = svg.append("g")
 var xaxis_choice = "healthcare";
 var yaxis_choice = "obesity";
 
+function show_toolTip(circlesGroup, xaxis_choice, yaxis_choice) {
+  var toolTip = d3.tip()
+    .attr("class", "d3-tip")
+    .html(function(d) {
+      return (`${d.state}<br>${xaxis_choice}: ${d[xaxis_choice]}<br>${yaxis_choice}: ${d[yaxis_choice]}`);
+  })
+
+  circlesGroup.call(toolTip);
+
+  circlesGroup.on("mouseover", function(d) {
+    toolTip.show(d);
+  })
+
+  circlesGroup.on("mouseout", function(d) {
+    toolTip.hide(d);
+  })
+}
+
 
 // pull in data from csv
 
@@ -167,14 +185,13 @@ d3.csv("data/data.csv")
       
     }
 
+    var circles_tip = show_toolTip(circlesGroup, xaxis_choice, yaxis_choice);
+
      // x axis labels event listener
      xlabelsGroup.selectAll("text")
       .on("click", function() {
-        console.log("clicked");
 
         var x_selection = d3.select(this).attr("value");
-        console.log(x_selection);
-        console.log(xaxis_choice);
         
         if (x_selection !== xaxis_choice) {
           // update x axis based on selection
@@ -206,17 +223,17 @@ d3.csv("data/data.csv")
           circle_text.transition()
           .duration(500)
           .attr("transform", d => `translate(${xscale(d[xaxis_choice])}, ${yscale(d[yaxis_choice])})`)
+
+          circles_tip = show_toolTip(circlesGroup, xaxis_choice, yaxis_choice);
         }
+
       })
 
     // y axis labels event listener
     ylabelsGroup.selectAll("text")
       .on("click", function() {
-        console.log("clicked");
 
         var y_selection = d3.select(this).attr("value");
-        console.log(y_selection);
-        console.log(yaxis_choice);
         
         if (y_selection !== yaxis_choice) {
           // update y axis based on selection
@@ -248,6 +265,8 @@ d3.csv("data/data.csv")
           circle_text.transition()
           .duration(1000)
           .attr("transform", d => `translate(${xscale(d[xaxis_choice])}, ${yscale(d[yaxis_choice])})`)
+
+          circles_tip = show_toolTip(circlesGroup, xaxis_choice, yaxis_choice);
         }
       })
 
