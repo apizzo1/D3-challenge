@@ -5,9 +5,7 @@
   <meta charset="UTF-8">
   <title>D3Times</title>
   <!-- bootstrap css reference -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
 
   <link rel="stylesheet" href="css/style.css">
   <!-- css stylesheet - provided from  boot camp assignment template -->
@@ -16,6 +14,12 @@
 </head>
 
 <body>
+
+  <!-- add navbar for page refresh -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="index.html">D3 Times</a>
+  </nav>
+
   <div class="container">
     <div class="jumbotron">
       <h1 class="center display-3">D3Times</h1>
@@ -33,11 +37,11 @@
     <div class="row bottom">
       <div class="col-md-12">
         <div class="article">
-          <h2>Correlations Discovered Between Health Risks and Particular Demographics</h2>
+          <h2>Correlations Discovered Between Health Risk and Particular Demographics</h2>
           <br>
-          <div id = "health_section" class = "padding text-white bg-primary mb-3">
+          <div id="health_section" class="padding text-white bg-primary mb-3">
             <h5>Healthcare Availability</h5>
-            <p >As may be expected, states with lower percentages of residents lacking healthcare tend to see lower
+            <p>As may be expected, states with lower percentages of residents lacking healthcare tend to see lower
               percentages of <strong>obesity</strong>. For example,
               Massachusetts has the lowest percentage of residents lacking healthcare, and also has one of the lowest
               percentages of obesity across the United States.
@@ -63,7 +67,7 @@
               able to afford healthcare.
             </p>
           </div>
-          <div id = "income_section" class = "padding bg-secondary mb-3">
+          <div id="income_section" class="padding bg-secondary mb-3">
             <h5>Household Income Correlations</h5>
             <p>There seems to be a downward trend across states when it comes to <strong>obesity</strong> percentage and
               median household income. This indicates that,
@@ -81,7 +85,7 @@
               is an interesting outlier, in that it has a median household income on the higher end of the spectrum, but
               also a high percentage of residents in poverty. </p>
           </div>
-          <div id = "age_section" class = "padding bg-secondary mb-3">
+          <div id="age_section" class="padding bg-secondary mb-3">
             <h5>Age Correlations</h5>
             <p>When looking at age across the US, there does not seem to be an obvious correlation to
               <strong>obesity</strong> percentage. </p>
@@ -112,6 +116,7 @@
     integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
     crossorigin="anonymous"></script>
 
+    <!-- needed for d3 -->
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <!-- needed for access to d3 tool tips -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
