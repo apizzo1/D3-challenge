@@ -2,7 +2,7 @@
 
 ## Challenge Details
 
-This challenge was to create a scatter plot comparing different health and demographic factors for all the states in the country. D3.js was utilized to pull in data from a csv and plot this data. In order to plot this information, data binding was employed, which dictated where the data points would be plotted.
+This challenge was to create an interactive scatter plot comparing different health and demographic factors for all the states in the country. D3.js was utilized to pull in data from a csv and plot this data. In order to plot this information, data binding was employed, which dictated where the data points would be plotted.
 
 ## About the Scatter Plot
 
